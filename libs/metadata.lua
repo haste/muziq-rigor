@@ -81,6 +81,7 @@ local _MAGIC = {
 	-- http://flac.sourceforge.net/format.html
 	fLaC = function(fd)
 		repeat
+			-- The bitpacket is reversed.
 			local blockType, lastBlock, blockLength = vUnpack('> [1| u7 u1] u3', fd, true)
 			if(lastBlock == 1) then return _EMPTY end
 			if(blockType == 4) then
