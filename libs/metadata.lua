@@ -49,16 +49,17 @@ end
 -- http://www.xiph.org/vorbis/doc/Vorbis_I_spec.html
 -- http://www.xiph.org/ogg/doc/framing.html
 local ogg_read_page = function(fd)
-	local magicNumber = vUnpack('s4 u1', fd, true)
-	assert(magicNumber == 'OggS')
-	local version = vUnpack('< u1', fd, true)
-	assert(version == 0)
-	local headerType = vUnpack('< u1', fd, true)
-	local granulePosition = vUnpack('< u8', fd, true)
-	local serialNumber = vUnpack('< u4', fd, true)
-	local pageSequenceNumber = vUnpack('< u4', fd, true)
-	local checksum = vUnpack('< u4', fd, true)
-	local numSegmenst = vUnpack('< u1', fd, true)
+	local magicNumber, version = vUnpack('s4 u1', fd, true)
+	if(magicNumber ~= 'OggS') then
+		return nil, 'Not an Ogg file container.'
+	end
+
+	if(version ~= 0) then
+		return nil, 'Ogg version not supported.'
+	end
+
+	local headerType, granulePosition, serialNumber, pageSequenceNumber, checksum,
+	numSegmenst = vUnpack('< u1 u8 u4 u4 u4 u1', fd, true)
 
 	local segments = {[1]=0}
 	for i=1, numSegmenst do
