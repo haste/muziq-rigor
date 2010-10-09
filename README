@@ -1,0 +1,14 @@
+Muziq Rigor
+
+Muziq Rigor is a Lua command-line application written to validate metadata
+usage within a folder, based on defined rules.
+
+Features:
+ - Runs on babies, like everything else I write.
+ - Supports the FLAC and Ogg file formats.
+ - Supports reading VorbisComment metadata.
+
+Requirements:
+ - Lua 5.1
+ - vstruct 1.1 (included) (http://www.funkyhorror.net/toxicfrog/projects/vstruct/)
+ - LuaFileSystem 1.2.1 or newer (http://keplerproject.github.com/luafilesystem/)
