@@ -58,8 +58,8 @@ local ogg_read_page = function(fd)
 		return nil, 'Ogg version not supported.'
 	end
 
-	local headerType, granulePosition, serialNumber, pageSequenceNumber, checksum,
-	numSegmenst = vUnpack('< u1 u8 u4 u4 u4 u1', fd, true)
+	local headerType, granulePosition, serialNumber, pageSequenceNumber,
+	checksum, numSegmenst = vUnpack('< u1 u8 u4 u4 u4 u1', fd, true)
 
 	local segments = {[1]=0}
 	for i=1, numSegmenst do
