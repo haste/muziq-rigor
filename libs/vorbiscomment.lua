@@ -1,6 +1,4 @@
-package.path = './?/init.lua;' .. package.path
-
-require'vstruct'
+local vstruct = require'vstruct'
 local vUnpack = vstruct.unpack
 
 --[[
@@ -103,11 +101,20 @@ local _MAGIC = {
 	end,
 }
 
-local fd = io.open('../unit/ata-kill_recorder.flac')
-local magicNumber = fd:read(4)
+local readMetadata = function(fd, keepOpen)
+	if(type(fd) == 'string') then
+		fd = io.open(fd)
+	end
 
-if(_MAGIC[magicNumber]) then
-	_MAGIC[magicNumber](fd)
+	local magicNumber = fd:read(4)
+	if(_MAGIC[magicNumber]) then
+		local metadata = _MAGIC[magicNumber](fd)
+		if(not keepOpen) then
+			fd:close()
+		end
+
+		return metadata
+	end
 end
 
-fd:close()
+return {read = readMetadata}
