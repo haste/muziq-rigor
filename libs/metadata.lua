@@ -23,7 +23,10 @@ local vUnpack = vstruct.unpack
 local _EMPTY = {}
 local vorbiscomment_unpack = function(fd)
 	local vendorLength = vUnpack('< u4', fd, true)
-	local vendorString = vUnpack('< s' .. vendorLength, fd, true)
+	local vendorString = ''
+	if(vendorLength > 0) then
+		vendorString = vUnpack('< s' .. vendorLength, fd, true)
+	end
 
 	local numComments = vUnpack('< u4', fd, true)
 	if(numComments > 0) then
