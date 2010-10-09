@@ -107,14 +107,16 @@ local readMetadata = function(fd, keepOpen)
 	end
 
 	local magicNumber = fd:read(4)
+	local metadata
 	if(_MAGIC[magicNumber]) then
-		local metadata = _MAGIC[magicNumber](fd)
-		if(not keepOpen) then
-			fd:close()
-		end
-
-		return metadata
+		metadata = _MAGIC[magicNumber](fd)
 	end
+
+	if(not keepOpen) then
+		fd:close()
+	end
+
+	return metadata
 end
 
 return {read = readMetadata}
