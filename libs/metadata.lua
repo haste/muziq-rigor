@@ -86,11 +86,12 @@ local _MAGIC = {
 		repeat
 			-- The bitpacket is reversed.
 			local blockType, lastBlock, blockLength = vUnpack('> [1| u7 u1] u3', fd, true)
-			if(lastBlock == 1) then return _EMPTY end
 			if(blockType == 4) then
 				return vorbiscomment_unpack(fd)
 			end
 		until not fd:read(blockLength)
+
+		return _EMPTY
 	end,
 
 	OggS = function(fd)
